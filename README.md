@@ -4,7 +4,7 @@
 
 - [Project Specs and Client Usage](#)
 - [ERD - Entity Relationship Diagram](#diagram)
-- [Technologies and Tools](#technologies and tools)
+- [Technologies and Tools](#technologies-and-tools)
 - [Links](#links)
 - [Preview](#preview)
 - [Contributors](#contributors)
@@ -22,7 +22,7 @@
 
 ## ERD - Entity Relationship Diagram
 
-![Diagram]()
+![Diagram](https://github.com/ror16sd/Group-5-Content-Management/blob/main/BlogCMS/src/main/resources/static/images/BlogContentManagementERD.jpg)
 
 ## Links
 
