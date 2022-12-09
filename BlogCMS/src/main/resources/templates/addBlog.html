@@ -11,50 +11,11 @@ xmlns="http://www.w3.org/1999/xhtml">
   <script src="https://kit.fontawesome.com/2849efec07.js" crossorigin="anonymous"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <script>
-    tinymce.init({
-  selector: '#editor',
-  plugins: 'image code',
-  toolbar: 'undo redo | link image | code',
-  // enable title field in the Image dialog
-  image_title: true,
-  // enable automatic uploads of images represented by blob or data URIs
-  automatic_uploads: true,
-  // add custom filepicker only to Image dialog
-  file_picker_types: 'image',
-  file_picker_callback: function(cb, value, meta) {
-    var input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
-
-    input.onchange = function() {
-      var file = this.files[0];
-      var reader = new FileReader();
-
-      reader.onload = function () {
-        var id = 'blobid' + (new Date()).getTime();
-        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-        var base64 = reader.result.split(',')[1];
-        var blobInfo = blobCache.create(id, file, base64);
-        blobCache.add(blobInfo);
-
-        // call the callback and populate the Title field with the file name
-        cb(blobInfo.blobUri(), { title: file.name });
-      };
-      reader.readAsDataURL(file);
-    };
-
-    input.click();
-  }
-});
-</script>
 </head>
 <body id="add">
-
   <nav class="navbar">
     <div class="navbar__container">
-        <a href="index.html" id="navbar_logo">Aspire Technology</a>
+        <a href="../../" id="navbar_logo">Aspire Technology</a>
         <div class="navbar_toggle" id="mobile-menu">
             <span class="bar"></span>
             <span class="bar"></span>
@@ -62,14 +23,17 @@ xmlns="http://www.w3.org/1999/xhtml">
         </div>
         <ul class="navbar__menu">
             <li class="navbar__item">
-                <a href="index.html" class="navbar__links">Home</a>                
+                <a href="../admin" class="navbar__links">Home</a>                
             </li>
             <li class="navbar__item">
-                <a href="blogHome.html" class="navbar__links">Blog</a>                
+                <a href="../blog" class="navbar__links">Blog Home</a>                
             </li>
             <li class="navbar__item">
-              <a href="editBlog.html" class="navbar__links">Edit</a>                
+              <a href="../admin/add-blog" class="navbar__links">Add Blog</a>                
           </li>
+        <li class="navbar__item">
+            <a href="../admin/tags" class="navbar__links">Manage Tags</a>                
+        </li>
             <!--took out the link to the log in page
           <li class="navbar__btn">
                 <a href="adminLogin.html" class="button">Log In</a>                
@@ -79,6 +43,9 @@ xmlns="http://www.w3.org/1999/xhtml">
 </nav>
 
   <div class="container">
+      <header class="col text-center border border-light bg-light">
+            <h1><a href="/" class="text-purple-gradient ">Add Post</a></h1>
+        </header>
       <div>
           <div class="row">
               <div class="col-lg-12">
@@ -102,13 +69,36 @@ xmlns="http://www.w3.org/1999/xhtml">
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label for="dateToActivate" class="col-3 col-form-label">
+                            Activation Time (Optional)</label>
+                        <div class="col-9">
+                           <input id="dateToActivate" type="datetime-local" name="dateToActivate" class="form-control" >
+                         </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="dateToExpire" class="col-3 col-form-label">
+                            Expiration Time (Optional)</label>
+                        <div class="col-9">
+                           <input id="dateToExpire" type="datetime-local" name="dateToExpire" class="form-control" >
+                         </div>
+                    </div>
+                    <div class="form-group row">
                         <div class="col-12">
-<!--                            <textarea name="bodyText" id="full-featured-non-premium">-->
-<!--                            </textarea>-->
-
-                            <textarea name="bodyText" id="editor">Write your awesome post here</textarea>
-
+                            <textarea name="bodyText" id="full-featured-non-premium">
+                            Write your awesome post here
+                            </textarea>
                         </div>
+                    </div>
+                    <div class="form-group row">
+                            <label for="postStatus" class="col-3 col-form-label">
+                                Post Status</label>
+                            <div class="col-9">
+                                <select id="postStatus" name="postStatus" class="form-control" >
+                                    <option >active</option>
+                                    <option >pending</option>
+                                    <option >inactive</option>
+                                </select>
+                            </div>
                     </div>
                     <div class="form-group row">
                             <label for="tagIds" class="col-3 col-form-label">
@@ -142,12 +132,6 @@ xmlns="http://www.w3.org/1999/xhtml">
 <!--          <li><a th:href="@{'/posts/' + ${post.id} + '/delete'}">Delete</a></li>-->
 <!--      </ul>-->
   </div>
-
-
-
-
-
-
 <!--Footer-->
 <footer>
   <div class="footer__container">
@@ -158,7 +142,20 @@ xmlns="http://www.w3.org/1999/xhtml">
           </div>
       </div>
   </div>
-  </footer>
+</footer>
+ <script>
+    tinymce.init({
+      selector: 'textarea',
+      plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect',
+      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name',
+      mergetags_list: [
+        { value: 'First.Name', title: 'First Name' },
+        { value: 'Email', title: 'Email' },
+      ],
+    });
+  </script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
